@@ -1,0 +1,131 @@
+
+
+<div class="row justify-content-center">
+
+    <div class="col-lg-8">
+
+        <div class="card shadow-sm">
+
+            <div class="card-header text-center">
+
+                <h4 class="mb-1">
+                    اختبارات المدرسين
+                </h4>
+
+                <small class="text-muted">
+                    ابحثي عن اختبارات مدرس معين
+                </small>
+
+            </div>
+
+
+            <div class="card-body">
+
+                <form action="/teacherExams" method="GET">
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            اسم المدرس
+                        </label>
+
+                        <input
+                            type="text"
+                            name="teacherName"
+                            class="form-control"
+                            placeholder="اكتب اسم المدرس"
+                            required>
+
+                    </div>
+
+
+                    <div class="text-center">
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary px-5">
+
+                            عرض الاختبارات
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+                {{#if exams}}
+
+    <hr class="my-4">
+
+    <div class="text-center mb-3">
+
+        <h5>
+            اختبارات المدرس: {{teacherName}}
+        </h5>
+
+    </div>
+
+
+    {{#each exams}}
+
+        <div class="card mb-3">
+
+            <div class="card-body">
+
+                <div class="row align-items-center">
+
+                    <div class="col-md-8">
+
+                        <h6 class="mb-2">
+                            {{title}}
+                        </h6>
+
+                        <div class="text-muted">
+
+                            المادة:
+                            {{subject}}
+
+                            &nbsp; | &nbsp;
+
+                            الصف:
+                            {{grade}}
+
+                            &nbsp; | &nbsp;
+
+                            النوع:
+                            {{examType}}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-4 text-md-end mt-3 mt-md-0">
+
+                        <a
+                            href="/questions/{{_id}}"
+                            class="btn btn-primary">
+
+                            فتح الامتحان
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    {{/each}}
+
+{{/if}}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

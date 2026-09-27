@@ -1,0 +1,935 @@
+<div class="container mt-5 mb-5">
+
+
+<div class="card shadow-sm border-0">
+
+    <!-- ===================================== -->
+    <!-- رأس الصفحة -->
+    <!-- ===================================== -->
+
+    <div class="card-header text-center py-4">
+
+        <h3 class="mb-2">
+            تصحيح امتحان الطالب
+        </h3>
+
+        <p class="text-muted mb-0">
+            {{attempt.exam.title}}
+        </p>
+
+    </div>
+
+
+    <div class="card-body p-4">
+
+
+        <!-- ===================================== -->
+        <!-- بيانات الطالب -->
+        <!-- ===================================== -->
+
+        <div class="row mb-3 text-center">
+
+            <div class="col-md-3">
+
+                <strong>
+                    اسم الطالب
+                </strong>
+
+                <div class="mt-2">
+                    {{attempt.studentName}}
+                </div>
+
+            </div>
+
+
+            <div class="col-md-3">
+
+                <strong>
+                    المادة
+                </strong>
+
+                <div class="mt-2">
+                    {{attempt.exam.subject}}
+                </div>
+
+            </div>
+
+
+            <div class="col-md-3">
+
+                <strong>
+                    الصف
+                </strong>
+
+                <div class="mt-2">
+                    {{attempt.exam.grade}}
+                </div>
+
+            </div>
+
+
+            <div class="col-md-3">
+
+                <strong>
+                    الدرجة الحالية
+                </strong>
+
+                <div class="mt-2">
+
+                    {{attempt.score}}
+                    /
+                    {{attempt.exam.totalMarks}}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <hr>
+
+
+        <!-- ===================================== -->
+        <!-- نموذج التصحيح -->
+        <!-- ===================================== -->
+
+        <form
+            method="POST"
+            action="/exam/correct/{{attempt._id}}"
+        >
+
+
+            <!-- ===================================== -->
+            <!-- مجموعات الأسئلة -->
+            <!-- ===================================== -->
+
+            {{#if questionGroups.length}}
+
+
+                {{#each questionGroups}}
+
+
+                    <!-- ================================= -->
+                    <!-- عنوان المجموعة -->
+                    <!-- ================================= -->
+
+                    <h5>
+                        السؤال {{arabicNumber this.groupNumber}} : {{this.title}}
+                    </h5>
+
+
+                    <!-- ================================= -->
+                    <!-- أسئلة المجموعة -->
+                    <!-- ================================= -->
+
+                    {{#each this.questions}}
+
+
+                        <!-- ================================= -->
+                        <!-- سؤال التصويب -->
+                        <!-- ================================= -->
+
+                        {{#ifEquals question.type 'correction'}}
+
+                            <div class="card mb-4 border">
+
+                                <div class="card-body">
+
+                                    <!-- الدرجة -->
+
+                                    <div class="d-flex justify-content-between align-items-center">
+
+                                        <span class="badge bg-secondary">
+
+                                            {{question.marks}}
+                                            درجة
+
+                                        </span>
+
+                                    </div>
+
+
+                                    <hr>
+
+
+                                    <!-- السؤال -->
+
+                                    <div class="mb-3">
+
+                                        <strong>
+
+                                            <p class="mt-3 mb-2">
+
+                                                {{question.order}} -
+
+                                                <span
+                                                    class="correction-question"
+                                                    data-question-text="{{question.questionText}}"
+                                                    data-underlined-text="{{question.underlinedText}}"
+                                                >
+
+                                                    <span class="question-text">
+                                                        {{question.questionText}}
+                                                    </span>
+
+                                                </span>
+
+                                            </p>
+
+                                        </strong>
+
+                                    </div>
+
+
+                                    <!-- إجابة الطالب -->
+
+                                    <div class="alert alert-light border">
+
+                                        <strong>
+                                            إجابة الطالب:
+                                        </strong>
+
+
+                                        {{#if studentAnswer.text}}
+
+                                            <div class="mt-2">
+
+                                                {{studentAnswer.text}}
+
+                                            </div>
+
+                                        {{else}}
+
+                                            <div class="mt-2 text-muted">
+
+                                                لم يتم الإجابة عن السؤال
+
+                                            </div>
+
+                                        {{/if}}
+
+                                    </div>
+
+
+                                    <!-- التصحيح التلقائي -->
+
+                                    {{#ifEquals currentMarks question.marks}}
+
+                                        <div class="alert alert-success mb-0">
+
+                                            <strong>
+                                                ✓ تصحيح تلقائي
+                                            </strong>
+
+                                            <br>
+
+                                            الإجابة الصحيحة:
+                                            {{question.correctAnswer}}
+
+                                            <br>
+
+                                            درجة الطالب:
+                                            {{currentMarks}}
+                                            /
+                                            {{question.marks}}
+
+                                        </div>
+
+                                    {{else}}
+
+                                        <div class="alert alert-danger mb-0">
+
+                                            <strong>
+                                                ✕ تصحيح تلقائي
+                                            </strong>
+
+                                            <br>
+
+                                            الإجابة الصحيحة:
+                                            {{question.correctAnswer}}
+
+                                            <br>
+
+                                            درجة الطالب:
+                                            {{currentMarks}}
+                                            /
+                                            {{question.marks}}
+
+                                        </div>
+
+                                    {{/ifEquals}}
+
+                                </div>
+
+                            </div>
+
+
+                        {{else}}
+
+
+                            <!-- ================================= -->
+                            <!-- السؤال المقالي -->
+                            <!-- ================================= -->
+
+                            {{#ifEquals question.type 'essay'}}
+
+
+                                <div class="card mb-4 border">
+
+                                    <div class="card-body">
+
+
+                                        <div class="d-flex justify-content-between align-items-center">
+
+                                            <span class="badge bg-secondary">
+
+                                                {{question.marks}}
+                                                درجة
+
+                                            </span>
+
+                                        </div>
+
+
+                                        <hr>
+
+
+                                        <div class="mb-3">
+
+                                            <strong>
+
+                                                <p class="mt-3 mb-2">
+
+                                                    {{question.order}} -
+
+                                                    {{question.questionText}}
+
+                                                </p>
+
+                                            </strong>
+
+                                        </div>
+
+
+                                        <div class="alert alert-light border">
+
+                                            <strong>
+                                                إجابة الطالب:
+                                            </strong>
+
+
+                                            {{#if studentAnswer.text}}
+
+                                                <div class="mt-2">
+                                                    {{studentAnswer.text}}
+                                                </div>
+
+                                            {{else}}
+
+                                                <div class="mt-2 text-muted">
+                                                    لم يتم الإجابة عن السؤال
+                                                </div>
+
+                                            {{/if}}
+
+                                        </div>
+
+
+                                        <div class="border rounded p-3">
+
+                                            <h6 class="mb-3">
+                                                تصحيح المدرس
+                                            </h6>
+
+
+                                            <label class="form-label">
+                                                درجة الطالب
+                                            </label>
+
+
+                                            <input
+                                                type="number"
+                                                class="form-control question-mark"
+                                                name="marks_{{question._id}}"
+                                                min="0"
+                                                max="{{question.marks}}"
+                                                value="{{currentMarks}}"
+                                            >
+
+
+                                            <small class="text-muted">
+
+                                                الدرجة القصوى لهذا السؤال:
+                                                {{question.marks}}
+
+                                            </small>
+
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+
+
+                            {{else}}
+
+
+                                <!-- ================================= -->
+                                <!-- سؤال الرسم -->
+                                <!-- ================================= -->
+
+                                {{#ifEquals question.type 'drawing'}}
+
+
+                                    <div class="card mb-4 border">
+
+                                        <div class="card-body">
+
+
+                                            <div class="d-flex justify-content-between align-items-center">
+
+                                                <span class="badge bg-secondary">
+
+                                                    {{question.marks}}
+                                                    درجة
+
+                                                </span>
+
+                                            </div>
+
+
+                                            <hr>
+
+
+                                            <div class="mb-3">
+
+                                                <strong>
+
+                                                    <p class="mt-3 mb-2">
+
+                                                        {{question.order}} -
+
+                                                        {{question.questionText}}
+
+                                                    </p>
+
+                                                </strong>
+
+                                            </div>
+
+
+                                            {{#if question.drawingImage}}
+
+                                                <div class="mb-3">
+
+                                                    <strong>
+                                                        شكل السؤال:
+                                                    </strong>
+
+
+                                                    <div class="border rounded p-2 bg-white mt-2">
+
+                                                        <img
+                                                            src="{{question.drawingImage}}"
+                                                            class="img-fluid rounded"
+                                                            alt="صورة سؤال الرسم"
+                                                            style="
+                                                                max-width:350px;
+                                                                max-height:250px;
+                                                                display:block;
+                                                            "
+                                                        >
+
+                                                    </div>
+
+                                                </div>
+
+                                            {{/if}}
+
+
+                                            <div class="alert alert-light border">
+
+                                                <strong>
+                                                    إجابة الطالب:
+                                                </strong>
+
+
+                                                {{#ifEquals question.answerMode 'text'}}
+
+                                                    {{#if studentAnswer.text}}
+
+                                                        <div class="mt-2">
+                                                            {{studentAnswer.text}}
+                                                        </div>
+
+                                                    {{else}}
+
+                                                        <div class="mt-2 text-muted">
+                                                            لم يتم الإجابة عن السؤال
+                                                        </div>
+
+                                                    {{/if}}
+
+                                                {{/ifEquals}}
+
+
+                                                {{#ifEquals question.answerMode 'drawing'}}
+
+                                                    {{#if studentAnswer.drawing}}
+
+                                                        <div class="mt-3">
+
+                                                            <strong>
+                                                                رسم الطالب:
+                                                            </strong>
+
+
+                                                            <div class="border rounded p-2 bg-white mt-2">
+
+                                                                <img
+                                                                    src="{{studentAnswer.drawing}}"
+                                                                    class="img-fluid rounded"
+                                                                    alt="رسم الطالب"
+                                                                    style="
+                                                                        max-width:100%;
+                                                                        max-height:500px;
+                                                                    "
+                                                                >
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    {{else}}
+
+                                                        <div class="mt-2 text-muted">
+                                                            لم يتم الإجابة عن السؤال
+                                                        </div>
+
+                                                    {{/if}}
+
+                                                {{/ifEquals}}
+
+
+                                                {{#ifEquals question.answerMode 'both'}}
+
+                                                    {{#if studentAnswer.text}}
+
+                                                        <div class="mt-2">
+
+                                                            <strong>
+                                                                الإجابة النصية:
+                                                            </strong>
+
+                                                            <div>
+                                                                {{studentAnswer.text}}
+                                                            </div>
+
+                                                        </div>
+
+                                                    {{/if}}
+
+
+                                                    {{#if studentAnswer.drawing}}
+
+                                                        <div class="mt-3">
+
+                                                            <strong>
+                                                                رسم الطالب:
+                                                            </strong>
+
+
+                                                            <div class="border rounded p-2 bg-white mt-2">
+
+                                                                <img
+                                                                    src="{{studentAnswer.drawing}}"
+                                                                    class="img-fluid rounded"
+                                                                    alt="رسم الطالب"
+                                                                    style="
+                                                                        max-width:100%;
+                                                                        max-height:500px;
+                                                                    "
+                                                                >
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    {{/if}}
+
+
+                                                    {{#unless studentAnswer.text}}
+
+                                                        {{#unless studentAnswer.drawing}}
+
+                                                            <div class="mt-2 text-muted">
+                                                                لم يتم الإجابة عن السؤال
+                                                            </div>
+
+                                                        {{/unless}}
+
+                                                    {{/unless}}
+
+                                                {{/ifEquals}}
+
+                                            </div>
+
+
+                                            <div class="border rounded p-3">
+
+                                                <h6 class="mb-3">
+                                                    تصحيح المدرس
+                                                </h6>
+
+
+                                                <label class="form-label">
+                                                    درجة الطالب
+                                                </label>
+
+
+                                                <input
+                                                    type="number"
+                                                    class="form-control question-mark"
+                                                    name="marks_{{question._id}}"
+                                                    min="0"
+                                                    max="{{question.marks}}"
+                                                    value="{{currentMarks}}"
+                                                >
+
+
+                                                <small class="text-muted">
+
+                                                    الدرجة القصوى لهذا السؤال:
+                                                    {{question.marks}}
+
+                                                </small>
+
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
+
+
+                                {{else}}
+
+
+                                    <!-- ================================= -->
+                                    <!-- الأسئلة التي يتم تصحيحها تلقائيًا -->
+                                    <!-- ================================= -->
+
+                                    <div class="card mb-4 border">
+
+                                        <div class="card-body">
+
+
+                                            <div class="d-flex justify-content-between align-items-center">
+
+                                                <span class="badge bg-secondary">
+
+                                                    {{question.marks}}
+                                                    درجة
+
+                                                </span>
+
+                                            </div>
+
+
+                                            <hr>
+
+
+                                            <div class="mb-3">
+
+                                                <strong>
+
+                                                    <p class="mt-3 mb-2">
+
+                                                        {{question.order}} -
+
+                                                        {{question.questionText}}
+
+                                                    </p>
+
+                                                </strong>
+
+                                            </div>
+
+
+                                            <div class="alert alert-light border">
+
+                                                <strong>
+                                                    إجابة الطالب:
+                                                </strong>
+
+
+                                                {{#if studentAnswer.text}}
+
+                                                    <div class="mt-2">
+                                                        {{studentAnswer.text}}
+                                                    </div>
+
+                                                {{else}}
+
+                                                    <div class="mt-2 text-muted">
+                                                        لم يتم الإجابة عن السؤال
+                                                    </div>
+
+                                                {{/if}}
+
+                                            </div>
+
+
+                                            {{#ifEquals currentMarks question.marks}}
+
+                                                <div class="alert alert-success mb-0">
+
+                                                    <strong>
+                                                        ✓ تصحيح تلقائي
+                                                    </strong>
+
+                                                    <br>
+
+                                                    الإجابة الصحيحة:
+                                                    {{question.correctAnswer}}
+
+                                                    <br>
+
+                                                    درجة الطالب:
+                                                    {{currentMarks}}
+                                                    /
+                                                    {{question.marks}}
+
+                                                </div>
+
+                                            {{else}}
+
+                                                <div class="alert alert-danger mb-0">
+
+                                                    <strong>
+                                                        ✕ تصحيح تلقائي
+                                                    </strong>
+
+                                                    <br>
+
+                                                    الإجابة الصحيحة:
+                                                    {{question.correctAnswer}}
+
+                                                    <br>
+
+                                                    درجة الطالب:
+                                                    {{currentMarks}}
+                                                    /
+                                                    {{question.marks}}
+
+                                                </div>
+
+                                            {{/ifEquals}}
+
+
+                                        </div>
+
+                                    </div>
+
+
+                                {{/ifEquals}}
+
+
+                            {{/ifEquals}}
+
+
+                        {{/ifEquals}}
+
+
+                    {{/each}}
+
+
+                {{/each}}
+
+
+            {{else}}
+
+
+                <div class="alert alert-secondary text-center">
+
+                    لا توجد أسئلة في هذا الامتحان.
+
+                </div>
+
+
+            {{/if}}
+
+
+
+            <!-- ===================================== -->
+            <!-- زر الحفظ -->
+            <!-- ===================================== -->
+
+            <div class="text-center mt-4">
+
+                <button
+                    type="submit"
+                    class="btn btn-success px-5"
+                >
+
+                    حفظ التصحيح
+
+                </button>
+
+            </div>
+
+
+            <!-- ===================================== -->
+            <!-- رابط النتيجة -->
+            <!-- ===================================== -->
+
+            <div class="text-center mt-4">
+
+                <a
+                    href="/exam/result/{{attempt._id}}"
+                >
+
+                    نتيجة الاختبار النهائية
+
+                </a>
+
+            </div>
+
+
+        </form>
+
+
+    </div>
+
+</div>
+
+
+</div>
+
+<!-- ===================================== -->
+
+<!-- خط كلمة التصويب -->
+
+<!-- ===================================== -->
+
+<style>
+
+    .correction-underline {
+        position: relative;
+        display: inline-block;
+    }
+
+    .correction-underline::after {
+        content: "";
+        position: absolute;
+
+        left: 0;
+        right: 0;
+
+        top: calc(100% + 10px);
+
+        height: 3px;
+
+        background-color: black;
+    }
+
+</style>
+
+<!-- ===================================== -->
+
+<!-- JavaScript -->
+
+<!-- ===================================== -->
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    const correctionQuestions =
+        document.querySelectorAll('.correction-question');
+
+
+    correctionQuestions.forEach(function (questionElement) {
+
+        const questionText =
+            questionElement.dataset.questionText || '';
+
+
+        const underlinedText =
+            questionElement.dataset.underlinedText || '';
+
+
+        const textContainer =
+            questionElement.querySelector('.question-text');
+
+
+        if (!textContainer || !underlinedText) {
+            return;
+        }
+
+
+        const index =
+            questionText.indexOf(underlinedText);
+
+
+        if (index === -1) {
+            return;
+        }
+
+
+        textContainer.innerHTML = '';
+
+
+        textContainer.appendChild(
+
+            document.createTextNode(
+
+                questionText.substring(
+                    0,
+                    index
+                )
+
+            )
+
+        );
+
+
+        const underline =
+            document.createElement('span');
+
+
+        underline.textContent =
+            underlinedText;
+
+
+        underline.className =
+            'correction-underline';
+
+
+        textContainer.appendChild(
+            underline
+        );
+
+
+        textContainer.appendChild(
+
+            document.createTextNode(
+
+                questionText.substring(
+
+                    index +
+                    underlinedText.length
+
+                )
+
+            )
+
+        );
+
+    });
+
+});
+
+</script>

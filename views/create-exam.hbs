@@ -1,0 +1,264 @@
+
+{{!-- صفحة انشاء الامتحان من خلال الادمن --}}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+
+        <div class="card shadow-sm">
+
+            <div class="card-header text-center">
+                <h4 class="mb-1">إنشاء امتحان جديد</h4>
+                <small class="text-muted">
+                    كل امتحان يتم إنشاؤه يكون له رابط خاص ومستقل
+                </small>
+            </div>
+
+            <div class="card-body">
+
+                <form action="/createExam" method="POST">
+
+                    <!-- اسم الامتحان -->
+                    <div class="mb-3">
+                        <label class="form-label">
+                            اسم الامتحان
+                        </label>
+
+                        <input
+                            type="text"
+                            name="title"
+                            class="form-control"
+                            placeholder="مثال: اختبار شهر أكتوبر"
+                            required>
+                    </div>
+
+                    <!-- اسم المدرس -->
+<div class="mb-3">
+    <label class="form-label">
+        اسم المدرس
+    </label>
+
+    <input
+        type="text"
+        name="teacherName"
+        class="form-control"
+        placeholder="اكتب اسم المدرس"
+        required>
+</div>
+
+
+<!-- رقم تليفون المدرس -->
+<div class="mb-3">
+    <label class="form-label">
+        رقم تليفون المدرس
+    </label>
+
+    <input
+        type="tel"
+        name="teacherPhone"
+        class="form-control"
+        placeholder="مثال: 01xxxxxxxxx"
+        maxlength="11"
+        required>
+</div>
+
+
+                    <!-- المادة -->
+                    <div class="mb-3">
+                        <label class="form-label">
+                            المادة
+                        </label>
+
+                        <select
+                            name="subject"
+                            class="form-select"
+                            required>
+
+                            <option value="">
+                                اختار المادة
+                            </option>
+
+                            <option value="العلوم">
+                                العلوم
+                            </option>
+
+                            <option value="الفيزياء">
+                                الفيزياء
+                            </option>
+
+                            <option value="الكيمياء">
+                                الكيمياء
+                            </option>
+
+                            <option value="الأحياء">
+                                الأحياء
+                            </option>
+
+                            <option value="الرياضيات">
+                                الرياضيات
+                            </option>
+
+                            <option value="اللغة العربية">
+                                اللغة العربية
+                            </option>
+
+                            <option value="اللغة الإنجليزية">
+                                اللغة الإنجليزية
+                            </option>
+
+                            <option value="أخرى">
+                                أخرى
+                            </option>
+
+                        </select>
+                    </div>
+
+
+                    <!-- الصف -->
+                    <div class="mb-3">
+                        <label class="form-label">
+                            الصف
+                        </label>
+
+                        <select
+                            name="grade"
+                            class="form-select"
+                            required>
+
+                            <option value="">
+                                اختاري الصف
+                            </option>
+
+                            <option value="الأول الإعدادي">
+                                الأول الإعدادي
+                            </option>
+
+                            <option value="الثاني الإعدادي">
+                                الثاني الإعدادي
+                            </option>
+
+                            <option value="الثالث الإعدادي">
+                                الثالث الإعدادي
+                            </option>
+
+                            <option value="الأول الثانوي">
+                                الأول الثانوي
+                            </option>
+
+                            <option value="الثاني الثانوي">
+                                الثاني الثانوي
+                            </option>
+
+                            <option value="الثالث الثانوي">
+                                الثالث الثانوي
+                            </option>
+
+                            <option value="أخرى">
+                                أخرى
+                            </option>
+
+                        </select>
+                    </div>
+
+
+                    <!-- السنة الدراسية -->
+                    <div class="mb-3">
+                        <label class="form-label">
+                            السنة الدراسية
+                        </label>
+
+                        <input
+                            type="text"
+                            name="academicYear"
+                            class="form-control"
+                            placeholder="2026/2027"
+                            required>
+                    </div>
+
+
+                    <!-- نوع الاختبار -->
+                    <div class="mb-3">
+                        <label class="form-label">
+                            نوع الاختبار
+                        </label>
+
+                        <select
+                            name="examType"
+                            class="form-select"
+                            required>
+
+                            <option value="">
+                                اختاري نوع الاختبار
+                            </option>
+
+                            <option value="شهري">
+                                اختبار شهري
+                            </option>
+
+                            <option value="نصف سنوي">
+                                اختبار نصف سنوي
+                            </option>
+
+                            <option value="سنوي">
+                                اختبار سنوي
+                            </option>
+
+                            <option value="أخرى">
+                                أخرى
+                            </option>
+
+                        </select>
+                    </div>
+
+
+                    <!-- مدة الامتحان -->
+                    <div class="mb-3">
+                        <label class="form-label">
+                            مدة الامتحان بالدقائق
+                        </label>
+
+                        <input
+                            type="number"
+                            name="duration"
+                            class="form-control"
+                            min="1"
+                            placeholder="مثال: 60"
+                            required>
+                    </div>
+
+
+                    <!-- الدرجة النهائية -->
+                    <div class="mb-3">
+                        <label class="form-label">
+                            الدرجة النهائية
+                        </label>
+
+                        <input
+                            type="number"
+                            name="totalMarks"
+                            class="form-control"
+                            min="1"
+                            placeholder="مثال: 50"
+                            required>
+                    </div>
+
+
+                    <!-- زر الإنشاء -->
+                    <div class="text-center mt-4">
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary px-5">
+
+                            إنشاء الامتحان
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>

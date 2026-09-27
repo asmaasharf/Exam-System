@@ -1,0 +1,987 @@
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+
+        <!-- بيانات الامتحان -->
+
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-header text-center">
+
+                <h4 class="mb-1">
+                    {{exam.title}}
+                </h4>
+
+                <small class="text-muted">
+                    امتحان {{exam.examType}}
+                </small>
+
+            </div>
+
+
+            <div class="card-body">
+
+                <div class="row text-center">
+
+                    <div class="col-md mb-3">
+
+                        <strong>
+                            اسم الطالب
+                        </strong>
+
+                        <div>
+                            {{attempt.studentName}}
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md mb-3">
+
+                        <strong>
+                            المادة
+                        </strong>
+
+                        <div>
+                            {{exam.subject}}
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md mb-3">
+
+                        <strong>
+                            الصف
+                        </strong>
+
+                        <div>
+                            {{exam.grade}}
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md mb-3">
+
+                        <strong>
+                            المدة
+                        </strong>
+
+                        <div>
+                            {{exam.duration}} دقيقة
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md mb-3">
+
+                        <strong>
+                            الدرجة النهائية
+                        </strong>
+
+                        <div>
+
+                            <span class="badge bg-primary fs-6">
+                                {{exam.totalMarks}}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="text-center mt-3">
+
+                    <strong>
+                        الوقت المتبقي:
+                    </strong>
+
+                    <span
+                        id="examTimer"
+                        class="badge bg-danger fs-5"
+                        data-duration="{{exam.duration}}"
+                        data-started-at="{{attempt.startedAt}}">
+
+                        {{exam.duration}}:00
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- الأسئلة -->
+
+        <form
+            id="examForm"
+            data-attempt-id="{{attempt._id}}">
+
+
+            {{#if questions.length}}
+
+
+                <!-- ===================================== -->
+                <!-- مجموعات الأسئلة -->
+                <!-- ===================================== -->
+
+                {{#each questionGroups}}
+
+
+                    <!-- عنوان المجموعة -->
+
+                        <h5>
+                            السؤال {{arabicNumber this.groupNumber}} : {{this.title}}
+                        </h5>
+
+
+
+                    <!-- ================================= -->
+                    <!-- أسئلة المجموعة -->
+                    <!-- ================================= -->
+
+                    {{#each this.questions}}
+
+
+                        <!-- ================================= -->
+                        <!-- اختيار من متعدد -->
+                        <!-- ================================= -->
+
+                        {{#if (eq this.type "multiple-choice")}}
+
+
+                            <div class="card shadow-sm mb-4">
+
+                                <div class="card-body">
+
+                                    <div
+                                        class="d-flex justify-content-between align-items-center">
+
+                                        <span class="badge bg-secondary">
+
+                                            {{this.marks}}
+                                            درجة
+
+                                        </span>
+
+                                    </div>
+
+
+                                    <hr>
+
+
+                                    <p class="mt-3 mb-2">
+
+                                        {{this.order}} -
+                                        {{{this.questionText}}}
+
+                                    </p>
+                                    
+
+                                    {{#each this.options}}
+
+
+                                        <div class="form-check mb-3">
+
+                                            <input
+                                                class="form-check-input"
+                                                type="radio"
+                                                name="question_{{../this._id}}"
+                                                value="{{this}}">
+
+
+                                            <label
+                                                class="form-check-label">
+
+                                                {{this}}
+
+                                            </label>
+
+                                        </div>
+
+
+                                    {{/each}}
+
+                                </div>
+
+                            </div>
+
+
+                        {{/if}}
+
+
+
+                        <!-- ================================= -->
+                        <!-- صح أو خطأ -->
+                        <!-- ================================= -->
+
+                        {{#if (eq this.type "true-false")}}
+
+
+                            <div class="card shadow-sm mb-4">
+
+                                <div class="card-body">
+
+                                    <div
+                                        class="d-flex justify-content-between align-items-center">
+
+                                        <span class="badge bg-secondary">
+
+                                            {{this.marks}}
+                                            درجة
+
+                                        </span>
+
+                                    </div>
+
+
+                                    <hr>
+
+
+                                    <p class="mt-3 mb-2">
+
+                                        {{this.order}} -
+                                        {{this.questionText}}
+
+                                    </p>
+
+
+                                    <div class="form-check mb-3">
+
+                                        <input
+                                            class="form-check-input"
+                                            type="radio"
+                                            name="question_{{this._id}}"
+                                            value="صح">
+
+
+                                        <label class="form-check-label">
+
+                                            صح
+
+                                        </label>
+
+                                    </div>
+
+
+                                    <div class="form-check mb-3">
+
+                                        <input
+                                            class="form-check-input"
+                                            type="radio"
+                                            name="question_{{this._id}}"
+                                            value="خطأ">
+
+
+                                        <label class="form-check-label">
+
+                                            خطأ
+
+                                        </label>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        {{/if}}
+
+
+
+                        <!-- ================================= -->
+                        <!-- الأسئلة المقالية -->
+                        <!-- ================================= -->
+
+                        {{#if (eq this.type "essay")}}
+
+
+                            <div class="card shadow-sm mb-4">
+
+                                <div class="card-body">
+
+                                    <div
+                                        class="d-flex justify-content-between align-items-center">
+
+                                        <span class="badge bg-secondary">
+
+                                            {{this.marks}}
+                                            درجة
+
+                                        </span>
+
+                                    </div>
+
+
+                                    <hr>
+
+
+                                    <p class="mt-3 mb-2">
+
+                                        {{this.order}} -
+                                        {{this.questionText}}
+
+                                    </p>
+
+
+                                    <textarea
+                                        class="form-control"
+                                        name="question_{{this._id}}"
+                                        rows="6"
+                                        placeholder="اكتب إجابتك هنا..."></textarea>
+
+                                </div>
+
+                            </div>
+
+
+                        {{/if}}
+
+
+
+                        <!-- ================================= -->
+                        <!-- صوّب ما تحته خط -->
+                        <!-- ================================= -->
+
+                        {{#if (eq this.type "correction")}}
+
+
+                            <div class="card shadow-sm mb-4">
+
+                                <div class="card-body">
+
+                                    <div
+                                        class="d-flex justify-content-between align-items-center">
+
+                                        <span class="badge bg-secondary">
+
+                                            {{this.marks}}
+                                            درجة
+
+                                        </span>
+
+                                    </div>
+
+
+                                    <hr>
+
+
+                                     <p
+                                        class="mt-3 mb-2 correction-question"
+                                        data-question-text="{{this.questionText}}"
+                                        data-underlined-text="{{this.underlinedText}}">
+
+                                        {{this.order}} -
+                                        <span class="question-text">
+                                            {{this.questionText}}
+                                        </span>
+
+                                    </p>
+
+
+                                    <textarea
+                                        class="form-control"
+                                        name="question_{{this._id}}"
+                                        rows="3"
+                                        placeholder="اكتب التصحيح هنا..."></textarea>
+
+                                </div>
+
+                            </div>
+
+
+                        {{/if}}
+
+
+
+                        <!-- ================================= -->
+                        <!-- اكتب المصطلح العلمي -->
+                        <!-- ================================= -->
+
+                        {{#if (eq this.type "scientific-term")}}
+
+
+                            <div class="card shadow-sm mb-4">
+
+                                <div class="card-body">
+
+                                    <div
+                                        class="d-flex justify-content-between align-items-center">
+
+                                        <span class="badge bg-secondary">
+
+                                            {{this.marks}}
+                                            درجة
+
+                                        </span>
+
+                                    </div>
+
+
+                                    <hr>
+
+
+                                    <p class="mt-3 mb-2">
+
+                                        {{this.order}} -
+                                        {{this.questionText}}
+
+                                    </p>
+
+
+                                    <textarea
+                                        class="form-control"
+                                        name="question_{{this._id}}"
+                                        rows="3"
+                                        placeholder="اكتب المصطلح العلمي هنا..."></textarea>
+
+                                </div>
+
+                            </div>
+
+
+                        {{/if}}
+
+
+
+                        <!-- ================================= -->
+                        <!-- أكمل -->
+                        <!-- ================================= -->
+
+                        {{#if (eq this.type "complete")}}
+
+
+                            <div class="card shadow-sm mb-4">
+
+                                <div class="card-body">
+
+                                    <div
+                                        class="d-flex justify-content-between align-items-center">
+
+                                        <span class="badge bg-secondary">
+
+                                            {{this.marks}}
+                                            درجة
+
+                                        </span>
+
+                                    </div>
+
+
+                                    <hr>
+
+
+                                    <p class="mt-3 mb-2">
+
+                                        {{this.order}} -
+                                        {{this.questionText}}
+
+                                    </p>
+
+
+                                    <textarea
+                                        class="form-control"
+                                        name="question_{{this._id}}"
+                                        rows="3"
+                                        placeholder="أكمل الإجابة هنا..."></textarea>
+
+                                </div>
+
+                            </div>
+
+
+                        {{/if}}
+
+
+
+                        <!-- ================================= -->
+                        <!-- سؤال الرسم -->
+                        <!-- ================================= -->
+
+                        {{#if (eq this.type "drawing")}}
+
+
+                            <div
+                                class="card shadow-sm mb-3 drawing-question"
+                                data-question-id="{{this._id}}"
+                                data-answer-mode="{{this.answerMode}}">
+
+
+                                <div class="card-body py-3 px-3">
+
+
+                                    <!-- درجة السؤال -->
+
+                                    <div
+                                        class="d-flex justify-content-between align-items-center">
+
+                                        <span class="badge bg-secondary">
+
+                                            {{this.marks}}
+                                            درجة
+
+                                        </span>
+
+                                    </div>
+
+
+                                    <hr class="my-2">
+
+
+                                    <!-- السؤال -->
+
+                                    <p class="mb-2 fw-bold">
+
+                                        {{this.order}} -
+                                        {{this.questionText}}
+
+                                    </p>
+
+
+
+                                    <!-- ================================= -->
+                                    <!-- صورة السؤال التي أعدها المدرس -->
+                                    <!-- ================================= -->
+
+                                    {{#if this.drawingImage}}
+
+
+                                        <div class="mb-3">
+
+                                            <div
+                                                class="border rounded p-1 bg-light">
+
+                                                <img
+                                                    src="{{this.drawingImage}}"
+                                                    class="img-fluid rounded"
+                                                    alt="صورة سؤال الرسم"
+                                                    style="
+                                                        max-width: 350px;
+                                                        max-height: 250px;
+                                                        display: block;
+                                                    ">
+
+                                            </div>
+
+                                        </div>
+
+
+                                    {{/if}}
+
+
+
+                                    <!-- ================================= -->
+                                    <!-- إجابة الطالب -->
+                                    <!-- ================================= -->
+
+                                    <div class="mt-3">
+
+
+                                        <!-- ================================= -->
+                                        <!-- إجابة بالرسم -->
+                                        <!-- ================================= -->
+
+                                        {{#ifEquals this.answerMode 'drawing'}}
+
+
+                                            <h6 class="fw-bold mb-2">
+
+                                                إجابة الطالب بالرسم:
+
+                                            </h6>
+
+
+                                            <div class="mb-2">
+
+
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-outline-dark btn-sm"
+                                                    data-pen-tool="{{this._id}}">
+
+                                                    ✏️ قلم
+
+                                                </button>
+
+
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-outline-secondary btn-sm"
+                                                    data-eraser-tool="{{this._id}}">
+
+                                                    🧽 ممحاة
+
+                                                </button>
+
+
+                                                <select
+                                                    class="form-select d-inline-block"
+                                                    style="width: 150px;"
+                                                    data-eraser-size="{{this._id}}">
+
+
+                                                    <option value="10">
+                                                        ممحاة صغيرة
+                                                    </option>
+
+
+                                                    <option
+                                                        value="20"
+                                                        selected>
+
+                                                        ممحاة متوسطة
+
+                                                    </option>
+
+
+                                                    <option value="35">
+                                                        ممحاة كبيرة
+                                                    </option>
+
+
+                                                </select>
+
+
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-secondary btn-sm"
+                                                    data-clear-drawing="{{this._id}}">
+
+                                                    🧹 مسح الرسم
+
+                                                </button>
+
+
+                                                <label
+                                                    for="drawingUpload_{{this._id}}"
+                                                    class="btn btn-primary btn-sm">
+
+                                                    🖼️ رفع صورة
+
+                                                </label>
+
+
+                                                <input
+                                                    type="file"
+                                                    id="drawingUpload_{{this._id}}"
+                                                    accept="image/*"
+                                                    style="display: none;"
+                                                    data-drawing-upload="{{this._id}}">
+
+                                            </div>
+
+
+
+                                            <div
+                                                class="border rounded"
+                                                style="
+                                                    background-color: white;
+                                                    overflow: hidden;
+                                                ">
+
+
+                                                <canvas
+                                                    id="studentDrawingCanvas_{{this._id}}"
+                                                    width="800"
+                                                    height="350"
+                                                    data-question-id="{{this._id}}"
+                                                    data-answer-mode="{{this.answerMode}}"
+                                                    style="
+                                                        width: 100%;
+                                                        height: auto;
+                                                        display: block;
+                                                        touch-action: none;
+                                                        cursor: crosshair;
+                                                    ">
+                                                </canvas>
+
+
+                                            </div>
+
+
+                                            <small class="text-muted d-block mt-1">
+
+                                                يمكنك الرسم بالماوس أو اللمس،
+                                                ويمكنك أيضًا رفع صورة والرسم عليها.
+
+                                            </small>
+
+
+                                        {{/ifEquals}}
+
+
+
+                                        <!-- ================================= -->
+                                        <!-- إجابة نصية -->
+                                        <!-- ================================= -->
+
+                                        {{#ifEquals this.answerMode 'text'}}
+
+
+                                            <div class="mt-3">
+
+                                                <label
+                                                    class="form-label fw-bold mb-1">
+
+                                                    الإجابة النصية:
+
+                                                </label>
+
+
+                                                <textarea
+                                                    class="form-control"
+                                                    rows="3"
+                                                    placeholder="اكتب إجابتك هنا..."
+                                                    data-drawing-text="{{this._id}}"></textarea>
+
+                                            </div>
+
+
+                                        {{/ifEquals}}
+
+
+
+                                        <!-- ================================= -->
+                                        <!-- الرسم + النص -->
+                                        <!-- ================================= -->
+
+                                        {{#ifEquals this.answerMode 'both'}}
+
+
+                                            <h6 class="fw-bold mb-2">
+
+                                                إجابة الطالب بالرسم:
+
+                                            </h6>
+
+
+                                            <div class="mb-2">
+
+
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-secondary btn-sm"
+                                                    data-clear-drawing="{{this._id}}">
+
+                                                    🧹 مسح الرسم
+
+                                                </button>
+
+
+                                                <label
+                                                    for="drawingUpload_{{this._id}}"
+                                                    class="btn btn-primary btn-sm">
+
+                                                    🖼️ رفع صورة
+
+                                                </label>
+
+
+                                                <input
+                                                    type="file"
+                                                    id="drawingUpload_{{this._id}}"
+                                                    accept="image/*"
+                                                    style="display: none;"
+                                                    data-drawing-upload="{{this._id}}">
+
+                                            </div>
+
+
+
+                                            <div
+                                                class="border rounded"
+                                                style="
+                                                    background-color: white;
+                                                    overflow: hidden;
+                                                ">
+
+
+                                                <canvas
+                                                    id="studentDrawingCanvas_{{this._id}}"
+                                                    width="800"
+                                                    height="350"
+                                                    data-question-id="{{this._id}}"
+                                                    style="
+                                                        width: 100%;
+                                                        height: auto;
+                                                        display: block;
+                                                        touch-action: none;
+                                                        cursor: crosshair;
+                                                    ">
+                                                </canvas>
+
+
+                                            </div>
+
+
+                                            <small class="text-muted d-block mt-1">
+
+                                                يمكنك الرسم بالماوس أو اللمس،
+                                                ويمكنك أيضًا رفع صورة والرسم عليها.
+
+                                            </small>
+
+
+
+                                            <div class="mt-3">
+
+                                                <label
+                                                    class="form-label fw-bold mb-1">
+
+                                                    الإجابة النصية:
+
+                                                </label>
+
+
+                                                <textarea
+                                                    class="form-control"
+                                                    rows="3"
+                                                    placeholder="اكتب إجابتك هنا..."
+                                                    data-drawing-text="{{this._id}}"></textarea>
+
+                                            </div>
+
+
+                                        {{/ifEquals}}
+
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+
+                        {{/if}}
+
+
+                    {{/each}}
+
+
+                {{/each}}
+
+
+
+            {{else}}
+
+
+                <div class="text-center py-5">
+
+                    <h5 class="text-muted">
+                        لا توجد أسئلة في هذا الامتحان
+                    </h5>
+
+                </div>
+
+
+            {{/if}}
+
+
+
+            <!-- زر التسليم -->
+
+            <div class="text-center mb-5">
+
+                <button
+                    type="submit"
+                    class="btn btn-success btn-lg"
+                    id="submitExamBtn">
+
+                    تسليم الامتحان
+
+                </button>
+
+            </div>
+
+
+        </form>
+
+    </div>
+</div>
+
+
+
+<script src="/javascripts/exam.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const correctionQuestions =
+        document.querySelectorAll('.correction-question');
+
+    correctionQuestions.forEach(function (questionElement) {
+
+        const questionText =
+            questionElement.dataset.questionText || '';
+
+        const underlinedText =
+            questionElement.dataset.underlinedText || '';
+
+        const textContainer =
+            questionElement.querySelector('.question-text');
+
+        if (!textContainer || !underlinedText) {
+            return;
+        }
+
+        const index =
+            questionText.indexOf(underlinedText);
+
+        if (index === -1) {
+            return;
+        }
+
+        textContainer.innerHTML = '';
+
+        textContainer.appendChild(
+            document.createTextNode(
+                questionText.substring(0, index)
+            )
+        );
+
+   const underline =
+    document.createElement('span');
+
+underline.textContent = underlinedText;
+underline.className = 'correction-underline';
+
+        textContainer.appendChild(underline);
+
+        textContainer.appendChild(
+            document.createTextNode(
+                questionText.substring(
+                    index + underlinedText.length
+                )
+            )
+        );
+
+    });
+
+});
+</script>
+
+
+<style>
+    .correction-underline {
+        position: relative;
+        display: inline-block;
+    }
+
+    .correction-underline::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -5px;
+        height: 3px;
+        background-color: rgb(168, 26, 26);
+    }
+</style>

@@ -1,0 +1,852 @@
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+
+```
+    <!-- بيانات الامتحان -->
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header text-center">
+
+            <h4 class="mb-1">
+                إعداد الامتحان
+            </h4>
+
+            <small class="text-muted">
+                {{exam.title}}
+            </small>
+
+        </div>
+
+
+        <div class="card-body">
+
+            <div class="row text-center">
+
+                <div class="col-md-3 mb-3">
+
+                    <strong>
+                        المادة
+                    </strong>
+
+                    <div>
+                        {{exam.subject}}
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-3 mb-3">
+
+                    <strong>
+                        الصف
+                    </strong>
+
+                    <div>
+                        {{exam.grade}}
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-3 mb-3">
+
+                    <strong>
+                        نوع الاختبار
+                    </strong>
+
+                    <div>
+                        {{exam.examType}}
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-3 mb-3">
+
+                    <strong>
+                        المدة
+                    </strong>
+
+                    <div>
+                        {{exam.duration}} دقيقة
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <hr>
+
+
+            <div class="text-center">
+
+                <strong>
+                    الدرجة النهائية للامتحان:
+                </strong>
+
+                <span class="badge bg-primary fs-6">
+                    {{exam.totalMarks}}
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- أزرار التحكم -->
+    <div class="mb-3">
+
+        <a
+            href="/questions/add/{{exam._id}}"
+            class="btn btn-primary">
+
+            <i class="bi bi-plus-lg"></i>
+
+            إضافة سؤال
+
+        </a>
+
+
+        <button
+            type="button"
+            class="btn btn-success"
+            id="copyExamLink"
+            data-exam-id="{{exam._id}}">
+
+            🔗 نسخ رابط الامتحان
+
+        </button>
+
+
+        <a
+            href="/exam/attempts/{{exam._id}}"
+            class="btn btn-info">
+
+            👨‍🎓 إجابات الطلاب
+
+        </a>
+
+    </div>
+
+
+
+    <!-- الأسئلة -->
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+
+            {{#if questions.length}}
+
+
+                {{!-- ================================= --}}
+                {{!-- مجموعات الأسئلة حسب ترتيب ظهورها --}}
+                {{!-- ================================= --}}
+
+
+                {{#each questionGroups}}
+
+
+                    <!-- عنوان المجموعة -->
+
+                    <h5>
+                        السؤال {{arabicNumber this.groupNumber}} : {{this.title}}
+                    </h5>
+
+
+
+                    <!-- أسئلة المجموعة -->
+
+                    {{#each this.questions}}
+
+
+                        <div class="card mb-3">
+
+                            <div class="card-body">
+
+
+                                <!-- الدرجة -->
+
+                                <div class="d-flex justify-content-between">
+
+                                    <span class="badge bg-secondary">
+
+                                        {{this.marks}}
+                                        درجة
+
+                                    </span>
+
+                                </div>
+
+
+
+                                <!-- ================================================= -->
+                                <!-- نص السؤال -->
+                                <!-- ================================================= -->
+
+                                {{#if (eq this.type "correction")}}
+
+                                    <!-- سؤال صوّب ما تحته خط -->
+
+                                    <p
+                                        class="mt-3 mb-2 correction-question"
+                                        data-question-text="{{this.questionText}}"
+                                        data-underlined-text="{{this.underlinedText}}"
+                                    >
+
+                                        {{this.order}} -
+
+                                        <span class="question-text">
+
+                                            {{this.questionText}}
+
+                                        </span>
+
+                                    </p>
+
+                                {{else}}
+
+                                    <!-- باقي أنواع الأسئلة -->
+
+                                    <p class="mt-3 mb-2">
+
+                                        {{this.order}} -
+                                        {{this.questionText}}
+
+                                    </p>
+
+                                {{/if}}
+
+
+
+                                {{!-- ============================ --}}
+                                {{!-- اختيار من متعدد --}}
+                                {{!-- ============================ --}}
+
+                                {{#if (eq this.type "multiple-choice")}}
+
+
+                                    <div class="mt-3">
+
+                                        {{#each this.options}}
+
+                                            <div class="mb-1">
+
+                                                {{this}}
+
+                                            </div>
+
+                                        {{/each}}
+
+                                    </div>
+
+                                     <div class="mt-3">
+
+                                        <strong>
+                                            الإجابة الصحيحة:
+                                        </strong>
+
+                                        <span>
+                                            {{this.correctAnswer}}
+                                        </span>
+
+                                    </div>
+
+
+                                {{/if}}
+
+
+
+                                {{!-- ============================ --}}
+                                {{!-- صح أو خطأ --}}
+                                {{!-- ============================ --}}
+
+                                {{#if (eq this.type "true-false")}}
+
+
+                                    <div class="mt-3">
+
+                                        <strong>
+                                            الإجابة الصحيحة:
+                                        </strong>
+
+                                        <span>
+                                            {{this.correctAnswer}}
+                                        </span>
+
+                                    </div>
+
+
+                                {{/if}}
+
+
+
+                                {{!-- ============================ --}}
+                                {{!-- الأسئلة المقالية --}}
+                                {{!-- ============================ --}}
+
+                                {{#if (eq this.type "essay")}}
+
+
+                                    <div class="mt-3">
+
+                                        <strong>
+                                            الإجابة النموذجية:
+                                        </strong>
+
+                                        <span>
+                                            {{this.modelAnswer}}
+                                        </span>
+
+                                    </div>
+
+
+                                {{/if}}
+
+
+
+                                {{!-- ============================ --}}
+                                {{!-- صوّب ما تحته خط --}}
+                                {{!-- ============================ --}}
+
+                                {{#if (eq this.type "correction")}}
+
+
+
+                                    <div class="mt-2">
+
+                                        <strong>
+                                            الإجابة الصحيحة:
+                                        </strong>
+
+                                        <span>
+                                            {{this.correctAnswer}}
+                                        </span>
+
+                                    </div>
+
+
+                                {{/if}}
+
+
+
+                                {{!-- ============================ --}}
+                                {{!-- المصطلح العلمي --}}
+                                {{!-- ============================ --}}
+
+                                {{#if (eq this.type "scientific-term")}}
+
+
+                                    <div class="mt-3">
+
+                                        <strong>
+                                            الإجابة الصحيحة:
+                                        </strong>
+
+                                        <span>
+                                            {{this.correctAnswer}}
+                                        </span>
+
+                                    </div>
+
+
+                                {{/if}}
+
+
+
+                                {{!-- ============================ --}}
+                                {{!-- أكمل --}}
+                                {{!-- ============================ --}}
+
+                                {{#if (eq this.type "complete")}}
+
+
+                                    <div class="mt-3">
+
+                                        <strong>
+                                            الإجابة الصحيحة:
+                                        </strong>
+
+                                        <span>
+                                            {{this.correctAnswer}}
+                                        </span>
+
+                                    </div>
+
+
+                                {{/if}}
+
+
+
+                                {{!-- ============================ --}}
+                                {{!-- سؤال الرسم --}}
+                                {{!-- ============================ --}}
+
+                                {{#if (eq this.type "drawing")}}
+
+
+                                    {{#if this.drawingImage}}
+
+
+                                        <div class="mt-3">
+
+                                            <div
+                                                class="border rounded p-2 bg-light">
+
+                                                <img
+                                                    src="{{this.drawingImage}}"
+                                                    class="img-fluid rounded"
+                                                    alt="صورة سؤال الرسم"
+                                                    style="max-width: 100%; max-height: 400px;">
+
+                                            </div>
+
+                                        </div>
+
+
+                                    {{/if}}
+
+
+                                {{/if}}
+
+
+
+                                <!-- أزرار التحكم -->
+
+                                <div class="mt-3">
+
+
+                                    <a
+                                        href="/question/edit/{{this._id}}"
+                                        class="btn btn-sm btn-outline-primary">
+
+                                        تعديل
+
+                                    </a>
+
+
+
+                                    <button
+                                        type="button"
+                                        class="btn btn-sm btn-outline-danger delete-question"
+                                        data-question-id="{{this._id}}">
+
+                                        حذف
+
+                                    </button>
+
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+
+                    {{/each}}
+
+
+                {{/each}}
+
+
+
+            {{else}}
+
+
+                <!-- لا توجد أسئلة -->
+
+                <div class="text-center py-5">
+
+                    <h5 class="text-muted">
+
+                        لا توجد أسئلة مضافة حتى الآن
+
+                    </h5>
+
+
+                    <p class="text-muted mb-3">
+
+                        ابدئي بإضافة أول سؤال للامتحان
+
+                    </p>
+
+
+                    <a
+                        href="/questions/add/{{exam._id}}"
+                        class="btn btn-primary">
+
+                        إضافة أول سؤال
+
+                    </a>
+
+                </div>
+
+
+            {{/if}}
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ملخص الدرجات -->
+
+    <div class="card shadow-sm mt-4">
+
+        <div class="card-body">
+
+            <div class="row text-center">
+
+
+                <div class="col-md-4 mb-2">
+
+                    <strong>
+                        عدد الأسئلة
+                    </strong>
+
+                    <div>
+                        {{questions.length}}
+                    </div>
+
+                </div>
+
+
+
+                <div class="col-md-4 mb-2">
+
+                    <strong>
+                        مجموع درجات الأسئلة
+                    </strong>
+
+                    <div>
+                        {{questionsTotalMarks}}
+                    </div>
+
+                </div>
+
+
+
+                <div class="col-md-4 mb-2">
+
+                    <strong>
+                        الدرجة النهائية
+                    </strong>
+
+                    <div>
+                        {{exam.totalMarks}}
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+```
+
+</div>
+
+<!-- ================================================= -->
+
+<!-- تنسيق الخط أسفل الكلمة المحددة -->
+
+<!-- ================================================= -->
+
+<style>
+
+.correction-underline {
+
+    position: relative;
+
+    display: inline-block;
+
+}
+
+
+.correction-underline::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+
+    right: 0;
+
+    top: calc(100% + 10px);
+
+    height: 3px;
+
+    background-color: black;
+
+}
+
+
+.correction-question {
+
+    font-size: 1.05rem;
+
+}
+
+
+</style>
+
+<script src="/javascripts/add-question.js"></script>
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function () {
+
+
+    /* ================================================= */
+    /* إظهار الخط أسفل الكلمة المحددة في سؤال التصويب */
+    /* ================================================= */
+
+    const correctionQuestions =
+        document.querySelectorAll(
+            '.correction-question'
+        );
+
+
+    correctionQuestions.forEach(
+        function (questionElement) {
+
+
+            const questionText =
+                questionElement.dataset.questionText || '';
+
+
+            const underlinedText =
+                questionElement.dataset.underlinedText || '';
+
+
+            const textContainer =
+                questionElement.querySelector(
+                    '.question-text'
+                );
+
+
+            if (
+                !textContainer ||
+                !underlinedText
+            ) {
+
+                return;
+
+            }
+
+
+            const index =
+                questionText.indexOf(
+                    underlinedText
+                );
+
+
+            if (index === -1) {
+
+                return;
+
+            }
+
+
+            textContainer.innerHTML = '';
+
+
+            /* الجزء قبل الكلمة */
+
+            textContainer.appendChild(
+
+                document.createTextNode(
+
+                    questionText.substring(
+                        0,
+                        index
+                    )
+
+                )
+
+            );
+
+
+            /* الكلمة المحددة */
+
+            const underline =
+                document.createElement('span');
+
+
+            underline.textContent =
+                underlinedText;
+
+
+            underline.className =
+                'correction-underline';
+
+
+            textContainer.appendChild(
+                underline
+            );
+
+
+            /* الجزء بعد الكلمة */
+
+            textContainer.appendChild(
+
+                document.createTextNode(
+
+                    questionText.substring(
+
+                        index +
+                        underlinedText.length
+
+                    )
+
+                )
+
+            );
+
+        }
+    );
+
+
+
+    /* ================================================= */
+    /* نسخ رابط الامتحان */
+    /* ================================================= */
+
+    const copyExamLink =
+        document.getElementById(
+            'copyExamLink'
+        );
+
+
+    if (!copyExamLink) {
+
+        return;
+
+    }
+
+
+    copyExamLink.addEventListener(
+        'click',
+        async function () {
+
+
+            const examId =
+                this.dataset.examId;
+
+
+            const examLink =
+                `${window.location.origin}/exam/${examId}`;
+
+
+            try {
+
+
+                await navigator.clipboard.writeText(
+                    examLink
+                );
+
+
+                const originalText =
+                    this.innerHTML;
+
+
+                this.innerHTML =
+                    '✅ تم نسخ الرابط';
+
+
+                setTimeout(
+                    () => {
+
+                        this.innerHTML =
+                            originalText;
+
+                    },
+                    2000
+                );
+
+
+            }
+            catch (error) {
+
+
+                console.log(
+                    'Copy Error:',
+                    error
+                );
+
+
+                /* طريقة بديلة للمتصفحات */
+
+                const tempInput =
+                    document.createElement(
+                        'input'
+                    );
+
+
+                tempInput.value =
+                    examLink;
+
+
+                document.body.appendChild(
+                    tempInput
+                );
+
+
+                tempInput.select();
+
+
+                tempInput.setSelectionRange(
+                    0,
+                    99999
+                );
+
+
+                document.execCommand(
+                    'copy'
+                );
+
+
+                document.body.removeChild(
+                    tempInput
+                );
+
+
+                const originalText =
+                    this.innerHTML;
+
+
+                this.innerHTML =
+                    '✅ تم نسخ الرابط';
+
+
+                setTimeout(
+                    () => {
+
+                        this.innerHTML =
+                            originalText;
+
+                    },
+                    2000
+                );
+
+            }
+
+        }
+    );
+
+});
+
+</script>

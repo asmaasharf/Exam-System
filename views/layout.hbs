@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{title}}</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/dropdown.css' />
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css">
+  </head>
+  <body dir="rtl">
+
+{{!-- Navbar --}}
+
+     <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+
+      <div class="container">
+
+        <a  class="navbar-brand" href="/">
+
+        نظام الاختبارات 
+        
+        </a>
+
+        <button
+         class="navbar-toggler"
+         type="button"
+         data-bstoggle="collapse"
+         data-bs-target="#mainNavbar">
+
+         <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNavbar">
+
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            
+
+    <li class="nav-item">
+
+    <a href="/createAcount-exam-system" class="nav-link">
+         إنشاء حساب
+    </a>
+
+</li>
+
+    <li class="nav-item">
+
+    <a href="/login-exam-system" class="nav-link">
+         تسجيل دخول 
+    </a>
+
+</li>
+
+
+  <li class="nav-item">
+
+    <a href="/createExam" class="nav-link">
+          إنشاء امتحان 
+    </a>
+
+</li>
+
+    <li class="nav-item">
+
+    <a href="/teacherExams" class="nav-link">
+        اختبارات المدرسين
+    </a>
+
+</li>
+
+    <li class="nav-item">
+
+    <a href="/logout-exam-system" class="nav-link text-danger fw-bold">
+         تسجيل خروج
+    </a>
+
+</li>
+
+        
+
+          </ul>
+        </div>
+
+      </div>
+
+     </nav>
+
+     {{!-- page-content --}}
+
+     <main class="container mt-4">
+         
+          {{{body}}}
+
+     </main>
+
+     <!-- Footer -->
+
+<footer class="bg-dark text-white text-center py-3 mt-5">
+
+    <div class="container">
+
+        <div class="mb-1">
+            جميع الحقوق محفوظة لدى © أسمـاء شــرف
+        </div>
+
+        <div>
+            رقم التليفون:
+            <span dir="ltr">
+                01093836765
+            </span>
+        </div>
+
+    </div>
+
+</footer>
+
+   
+
+    <script src="/bower_components/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    
+  </body>
+ 
+</html>

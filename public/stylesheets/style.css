@@ -1,0 +1,14 @@
+/* navbar ال موجود ف صفحه ال  layout.hbs */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f6f8;
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+main {
+    min-height: calc(100vh - 70px);
+}

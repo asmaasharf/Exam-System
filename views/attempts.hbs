@@ -1,0 +1,137 @@
+
+
+<div class="container mt-5 mb-5">
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header text-center py-3">
+
+            <h4 class="mb-0">
+                محاولات الطلاب
+            </h4>
+
+        </div>
+
+
+        <div class="card-body">
+
+            {{#if attempts.length}}
+
+                <div class="table-responsive">
+
+                    <table class="table table-bordered table-hover text-center align-middle">
+
+                       <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>اسم الطالب</th>
+                                <th>الامتحان</th>
+                                <th>الدرجة</th>
+                                <th>حالة التصحيح</th>
+                                <th>الإجراء</th>
+                                <th>طباعة النتيجة</th>
+                            </tr>
+                        </thead>
+
+
+                        <tbody>
+
+                            {{#each attempts}}
+
+                                <tr>
+
+                                    <td>
+                                        {{add @index 1}}
+                                    </td>
+
+                                    <td>
+                                        {{studentName}}
+                                    </td>
+
+                                    <td>
+                                        {{exam.title}}
+                                    </td>
+
+                                    <td>
+                                        {{score}}
+                                        /
+                                        {{exam.totalMarks}}
+                                    </td>
+
+                                    <td>
+
+                                        {{#ifEquals status 'pending'}}
+
+                                            <span class="badge bg-warning text-dark">
+                                                في انتظار التصحيح
+                                            </span>
+
+                                        {{else}}
+
+                                            <span class="badge bg-success">
+                                                تم التصحيح
+                                            </span>
+
+                                        {{/ifEquals}}
+
+                                    </td>
+
+                                   <td>
+
+                                        {{#ifEquals status 'pending'}}
+
+                                            <a
+                                                href="/exam/correct/{{_id}}"
+                                                class="btn btn-primary btn-sm"
+                                            >
+                                                تصحيح
+                                            </a>
+
+                                                {{else}}
+
+                                                    <a
+                                                        href="/exam/correct/{{_id}}"
+                                                        class="btn btn-secondary btn-sm"
+                                                    >
+                                                        عرض التصحيح
+                                                    </a>
+
+                                                {{/ifEquals}}
+
+                                    </td>
+
+                                    <td>
+                                        <div>
+                                            <a   class=" btn btn-danger" style="text-decoration: none; color : #fff ; border-radius : 20px"
+                                             href="/exam/result/{{_id}}"
+                                            >نتيجة الاختبار النهائية </a>
+
+
+                                        </div>
+                                    </td>
+
+                                </tr>
+
+                            {{/each}}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {{else}}
+
+                <div class="alert alert-info text-center">
+
+                    لا توجد محاولات للطلاب حتى الآن.
+
+                </div>
+
+            {{/if}}
+
+        </div>
+
+    </div>
+
+</div>

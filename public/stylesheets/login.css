@@ -1,0 +1,125 @@
+/* صفحة تسجيل الدخول */
+body {
+    direction: rtl;
+    font-family: "Tahoma", sans-serif;
+    /* background: #f3f6fb; */
+    background: #101e32;
+}
+
+
+/* الفورم نفسه */
+form {
+    width: 420px;
+    max-width: 90%;
+
+    background: #ffffff;
+
+    padding: 40px 35px;
+
+    border-radius: 20px;
+
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.10);
+
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+}
+
+
+/* العناوين */
+form label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    color: #243b64;
+}
+
+
+/* حقول الإدخال */
+form input {
+    width: 100%;
+
+    height: 50px;
+
+    border: 1px solid #d5dce8;
+
+    border-radius: 10px;
+
+    padding: 0 15px;
+
+    font-size: 15px;
+
+    outline: none;
+
+    transition: 0.3s;
+
+    box-sizing: border-box;
+}
+
+
+/* عند الضغط داخل الحقل */
+form input:focus {
+    border-color: #3f73e8;
+
+    box-shadow: 0 0 0 3px rgba(63, 115, 232, 0.12);
+}
+
+
+/* زر تسجيل الدخول */
+form button {
+    width: 100%;
+
+    height: 50px;
+
+    margin-top: 10px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #3f73e8;
+
+    color: white;
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+
+/* عند مرور الماوس */
+form button:hover {
+    background: #315fc7;
+
+    transform: translateY(-1px);
+}
+
+
+/* المسافات بين العناصر */
+.mb-4 {
+    margin-bottom: 22px !important;
+}
+
+
+/* الموبايل */
+@media (max-width: 576px) {
+
+    form {
+        width: 90%;
+
+        padding: 30px 22px;
+    }
+
+}
