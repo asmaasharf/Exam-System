@@ -13,4 +13,11 @@ npm-debug.log*
 
 Thumbs.db
 
-public/uploads/
+public/uploads/*
+!public/uploads/drawings/
+!public/uploads/drawings/.gitkeep
+!public/uploads/student-drawings/
+!public/uploads/student-drawings/.gitkeep
+
+public/uploads/drawings/*.png
+public/uploads/student-drawings/*.png
