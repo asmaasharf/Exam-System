@@ -1,0 +1,486 @@
+
+
+/* =========================================
+   الصفحة الرئيسية للامتحان
+========================================= */
+
+body {
+    background: #f4f7fb;
+    direction: rtl;
+}
+
+
+/* =========================================
+   الحاوية الرئيسية
+========================================= */
+
+.col-lg-10 {
+    margin-top: 25px;
+    margin-bottom: 30px;
+}
+
+
+/* =========================================
+   كارت بيانات الامتحان
+========================================= */
+
+.col-lg-10 > .card:first-child {
+    border: none;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(31, 52, 79, 0.10) !important;
+}
+
+
+/* رأس بيانات الامتحان */
+
+.col-lg-10 > .card:first-child .card-header {
+    background: linear-gradient(135deg, #234e70, #3178a6);
+    color: white;
+    border: none;
+    padding: 22px 20px;
+}
+
+
+/* عنوان الامتحان */
+
+.col-lg-10 > .card:first-child .card-header h4 {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+
+/* نوع الامتحان */
+
+.col-lg-10 > .card:first-child .card-header small {
+    color: rgba(255, 255, 255, 0.85) !important;
+    font-size: 14px;
+}
+
+
+/* جسم بيانات الامتحان */
+
+.col-lg-10 > .card:first-child .card-body {
+    background: white;
+    padding: 25px;
+}
+
+
+/* بيانات الطالب والمادة والصف... */
+
+.col-lg-10 > .card:first-child .card-body strong {
+    display: block;
+    color: #234e70;
+    font-size: 15px;
+    margin-bottom: 7px;
+}
+
+
+/* القيم */
+
+.col-lg-10 > .card:first-child .card-body .col-md > div {
+    color: #4d5d6c;
+    font-size: 15px;
+}
+
+
+/* الدرجة النهائية */
+
+.col-lg-10 > .card:first-child .badge.bg-primary {
+    background: #3178a6 !important;
+    border-radius: 8px;
+    padding: 8px 14px;
+}
+
+
+/* =========================================
+   الوقت المتبقي
+========================================= */
+
+.col-lg-10 > .card:first-child .text-center.mt-3 {
+    margin-top: 20px !important;
+    padding-top: 18px;
+    border-top: 1px solid #edf0f4;
+}
+
+
+#examTimer {
+    display: inline-block;
+    min-width: 95px;
+    padding: 9px 16px !important;
+    margin-right: 7px;
+    border-radius: 10px;
+    font-size: 18px !important;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 10px rgba(220, 53, 69, 0.15);
+}
+
+
+/* =========================================
+   عناوين مجموعات الأسئلة
+========================================= */
+
+#examForm > h5,
+#examForm > .text-center + h5 {
+    position: relative;
+    background: #eaf3f8;
+    color: #234e70;
+    border-right: 5px solid #3178a6;
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 25px 0 18px;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+
+/* =========================================
+   كروت الأسئلة
+========================================= */
+
+#examForm .card {
+    border: 1px solid #e4eaf0;
+    border-radius: 16px;
+    overflow: hidden;
+    background: white;
+    transition: 0.25s ease;
+    box-shadow: 0 5px 16px rgba(31, 52, 79, 0.06) !important;
+}
+
+
+#examForm .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(31, 52, 79, 0.10) !important;
+}
+
+
+/* جسم السؤال */
+
+#examForm .card-body {
+    padding: 22px;
+}
+
+
+/* =========================================
+   درجة السؤال
+========================================= */
+
+#examForm .badge.bg-secondary {
+    background: #eef2f6 !important;
+    color: #3d556b !important;
+    border-radius: 8px;
+    padding: 7px 12px;
+    font-size: 13px;
+}
+
+
+/* =========================================
+   الخط الفاصل
+========================================= */
+
+#examForm .card hr {
+    margin: 14px 0;
+    border: 0;
+    border-top: 1px solid #edf0f4;
+    opacity: 1;
+}
+
+
+/* =========================================
+   نص السؤال
+========================================= */
+
+#examForm .card p {
+    color: #1d2d3d;
+    font-size: 17px;
+    line-height: 1.9;
+}
+
+
+#examForm .card p.fw-bold {
+    color: #0d1d2a;
+}
+
+
+/* =========================================
+   اختيارات صح وخطأ والاختيار من متعدد
+========================================= */
+
+#examForm .form-check {
+    background: #f8fafc;
+    border: 1px solid #e8edf2;
+    border-radius: 10px;
+    padding: 11px 42px 11px 12px;
+    margin-bottom: 10px !important;
+    transition: 0.2s ease;
+}
+
+
+#examForm .form-check:hover {
+    background: #eef6fb;
+    border-color: #a9c9dd;
+}
+
+#examForm h5 {
+    background: #c9dfec;
+    color: #183b56;
+    border-right: 5px solid #3178a6;
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 25px 0 18px;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+
+
+
+/* الراديو */
+
+#examForm .form-check-input {
+    cursor: pointer;
+}
+
+
+#examForm .form-check-label {
+    cursor: pointer;
+    color: #394b5a;
+    font-size: 15px;
+}
+
+
+/* =========================================
+   Textarea
+========================================= */
+
+#examForm textarea {
+    border: 1px solid #dbe3eb;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 15px;
+    color: #293b4a;
+    background: #fbfcfe;
+    resize: vertical;
+    transition: 0.2s ease;
+}
+
+
+#examForm textarea:focus {
+    border-color: #5b9bc2;
+    box-shadow: 0 0 0 3px rgba(49, 120, 166, 0.12);
+    background: white;
+}
+
+
+/* =========================================
+   السؤال الخاص بالرسم
+========================================= */
+
+.drawing-question {
+    background: #ffffff;
+}
+
+
+.drawing-question .border.rounded {
+    border-color: #dce5ed !important;
+    border-radius: 12px !important;
+    background: #fafcfe !important;
+}
+
+
+/* عنوان إجابة الطالب */
+
+.drawing-question h6 {
+    color: #234e70;
+}
+
+
+/* =========================================
+   أزرار أدوات الرسم
+========================================= */
+
+.drawing-question .btn {
+    border-radius: 8px;
+    font-weight: 600;
+    margin: 2px;
+}
+
+
+/* زر القلم */
+
+.drawing-question [data-pen-tool] {
+    color: #234e70;
+    border-color: #7da8c3;
+}
+
+
+.drawing-question [data-pen-tool]:hover {
+    background: #234e70;
+    color: white;
+}
+
+
+/* الممحاة */
+
+.drawing-question [data-eraser-tool] {
+    color: #596b78;
+}
+
+
+/* مسح الرسم */
+
+.drawing-question [data-clear-drawing] {
+    color: #b14a4a;
+    border-color: #d98a8a;
+}
+
+
+.drawing-question [data-clear-drawing]:hover {
+    background: #b14a4a;
+    color: white;
+}
+
+
+/* رفع الصورة */
+
+.drawing-question label.btn-primary {
+    background: #3178a6;
+    border-color: #3178a6;
+}
+
+
+.drawing-question label.btn-primary:hover {
+    background: #234e70;
+    border-color: #234e70;
+}
+
+
+/* اختيار حجم الممحاة */
+
+.drawing-question select {
+    border-radius: 8px;
+    border-color: #dbe3eb;
+    vertical-align: middle;
+}
+
+
+/* =========================================
+   النص التوضيحي أسفل الرسم
+========================================= */
+
+.drawing-question small {
+    color: #7a8792 !important;
+    line-height: 1.7;
+}
+
+
+/* =========================================
+   خط التصحيح في سؤال "صوّب"
+========================================= */
+
+.correction-underline {
+    color: #234e70;
+    font-weight: 700;
+}
+
+
+/* =========================================
+   زر تسليم الامتحان
+========================================= */
+
+#submitExamBtn {
+    min-width: 210px;
+    padding: 13px 28px;
+    border: none;
+    border-radius: 12px;
+    background: #198754 !important;
+    font-size: 18px;
+    font-weight: 700;
+    box-shadow: 0 6px 16px rgba(25, 135, 84, 0.18);
+    transition: 0.25s ease;
+}
+
+
+#submitExamBtn:hover {
+    background: #157347 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 9px 20px rgba(25, 135, 84, 0.22);
+}
+
+
+/* =========================================
+   تحسين اتجاه النص
+========================================= */
+
+#examForm,
+#examForm .card,
+#examForm .card-body {
+    text-align: right;
+}
+
+
+/* =========================================
+   الموبايل
+========================================= */
+
+@media (max-width: 768px) {
+
+    .col-lg-10 {
+        margin-top: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+
+    .col-lg-10 > .card:first-child .card-body {
+        padding: 18px;
+    }
+
+
+    .col-lg-10 > .card:first-child .card-header h4 {
+        font-size: 20px;
+    }
+
+
+    #examForm .card-body {
+        padding: 17px;
+    }
+
+
+    #examForm .card p {
+        font-size: 15px;
+        line-height: 1.8;
+    }
+
+
+    #examForm .form-check {
+        padding-right: 38px;
+    }
+
+
+    #submitExamBtn {
+        width: 100%;
+        max-width: 350px;
+    }
+
+}
+
+
+
+
+.form-check-input[type="radio"] {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    border: #3a74a0 solid 2px;
+}
+
+.form-check-input[type="radio"]:checked {
+    border-width: 2px;
+}
+
+.form-check-label {
+    cursor: pointer;
+    margin-right: 8px;
+}
